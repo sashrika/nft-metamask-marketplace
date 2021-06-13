@@ -10,6 +10,9 @@ import {
   Redirect
 } from "react-router-dom";
 import MetaMaskOnboarding from '@metamask/onboarding'
+import { OpenSeaPort, Network } from 'opensea-js';
+import * as Web3 from 'web3'
+import Assets from './assets';
 
 
 const isMetaMaskInstalled = () => {
@@ -22,6 +25,7 @@ const AdressContext = React.createContext({address:"", setAdress:() => {}});
 function App() {
 
   const [address, setAdress] = useState("")
+  const [chain, setChain] = useState("")
 
   const getCurrentWalletConnected = async () => {
     if (window.ethereum) {
@@ -49,9 +53,7 @@ function App() {
   const addWalletListener = () => {
     if (window.ethereum) {
       window.ethereum.on("accountsChanged", (accounts) => {
-        alert("oo")
         if (accounts.length > 0) {
-          alert("changed")
           setAdress(accounts[0])
         } else {
           // setWallet("");
@@ -63,7 +65,7 @@ function App() {
 
   const getChain = async () => {
     const chain = await window.ethereum.request({ method: 'eth_chainId' })
-    console.log(chain)
+    setChain(chain)
   }
 
   useEffect(() => {
@@ -85,7 +87,7 @@ function App() {
 
   return (
     <Router>
-      <AdressContext.Provider value={[address,setAdress]}>
+      <AdressContext.Provider value={[address,setAdress, chain]}>
         <Switch>
           <Route path="/sign-in">
             <SignIn />
@@ -158,12 +160,14 @@ function SignIn() {
   );
 }
 
+var seaport;
 function Home() {
 
   let history = useHistory();
 
-  const [address, setAdress] = useContext(AdressContext)
+  const [address, setAdress, chain] = useContext(AdressContext)
   const [isDisabled, setIsDisabled] = useState(false)
+  const page = 0;
 
   //------Inserted Code------\\
   const metaMaskClientCheck = () => {
@@ -191,20 +195,33 @@ function Home() {
     }
   }
 
+  useEffect(() => {
+    // var web3 = new Web3(Web3.givenProvider || new Web3.providers.WebsocketProvider('ws://remotenode.com:8546'));
+    const provider = new Web3.providers.WebsocketProvider('wss://eth-mainnet.ws.alchemyapi.io/v2/njrUGAY9Kn4Dw5HkbXrsKnf5B0-NwuQc')
+    seaport = new OpenSeaPort(provider, {
+      networkName: Network.Main
+    })
+  },[])
+
   return (
     <div className="App">
       <header className="App-header">
-        This is header bar
+        <span>{address}</span>
         <button disabled={isDisabled} onClick={handleWalletButton}>
           {address ? "Sign out" : "Connect wallet"}
         </button>
+        <span>Your chain is {chain}</span>
         {/* display the chain */}
       </header>
       <div className="App-header-bar"></div>
-      Content goes here
+      <div>
+        Content goes here
+      </div>      
+      {window.ethereum.isConnected() ? "Connected" : "Not connected"}
       <button disabled={isDisabled} onClick={handleWallet}>
           Buy
-        </button>
+      </button>
+      {seaport && <Assets seaport={seaport}></Assets>}
     </div>
   );
 }

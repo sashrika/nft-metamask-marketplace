@@ -4,34 +4,34 @@ import moment from "moment";
 import SalePrice from "./salePrice";
 import AssetMetadata from "./assetMetaData";
 import Account from "./account";
+import useMetaMaskHandler from "./useMetaMaskHandler";
 
 export default function Order({ order, accountAddress, seaport }) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [creatingOrder, setCreatingOrder] = useState(false);
 
+  const metaMaskClientCheck = useMetaMaskHandler();
+
   const onError = (error) => {
     // Ideally, you'd handle this error at a higher-level component
     // using props or Redux
-    setErrorMessage(error.message );
-    console.log("timeoutttt")
+    setErrorMessage(error.message);
     setTimeout(() => setErrorMessage(null), 3000);
     // throw error;
   };
 
   const fulfillOrder = async () => {
     if (!accountAddress) {
-      //   this.handleMyWallet();
-      alert("handle my wallet");
+      metaMaskClientCheck();
       return;
     }
     try {
       setCreatingOrder(true);
       await seaport.fulfillOrder({ order, accountAddress });
     } catch (error) {
-        console.log("catch")
       onError(error);
     } finally {
-        setCreatingOrder(false);
+      setCreatingOrder(false);
     }
   };
 
@@ -63,8 +63,6 @@ export default function Order({ order, accountAddress, seaport }) {
   const isOwner =
     accountAddress &&
     accountAddress.toLowerCase() === owner.address.toLowerCase();
-
-console.log(errorMessage)
 
   return (
     <div>

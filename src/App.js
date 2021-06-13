@@ -13,14 +13,10 @@ import MetaMaskOnboarding from '@metamask/onboarding'
 import { OpenSeaPort, Network } from 'opensea-js';
 import * as Web3 from 'web3'
 import Assets from './assets';
+import useMetaMaskHandler from './useMetaMaskHandler'
+import {OrderContextProvider} from "./contexts/orderContext"
 
-
-const isMetaMaskInstalled = () => {
-  const { ethereum } = window;
-  return Boolean(ethereum && ethereum.isMetaMask);
-};
-
-const AdressContext = React.createContext({address:"", setAdress:() => {}});
+const AdressContext = React.createContext({ address: "", setAdress: () => {} });
 
 function App() {
 
@@ -88,6 +84,7 @@ function App() {
   return (
     <Router>
       <AdressContext.Provider value={[address,setAdress, chain]}>
+        <OrderContextProvider>
         <Switch>
           <Route path="/sign-in">
             <SignIn />
@@ -99,6 +96,7 @@ function App() {
             <Home />
           </Route>
         </Switch>
+        </OrderContextProvider>
         </AdressContext.Provider>
     </Router>
   );
@@ -161,23 +159,13 @@ function SignIn() {
 }
 
 var seaport;
-function Home() {
-
-  let history = useHistory();
+const Home = () => {
 
   const [address, setAdress, chain] = useContext(AdressContext)
   const [isDisabled, setIsDisabled] = useState(false)
   const page = 0;
 
-  //------Inserted Code------\\
-  const metaMaskClientCheck = () => {
-    //Now we check to see if MetaMask is installed
-    if (isMetaMaskInstalled()) {
-      history.push("sign-in")
-    } else {
-      history.push("/install-wallet");
-    }
-  };
+  const metaMaskClientCheck = useMetaMaskHandler()
 
   const handleWalletButton = () => {
     if(!address){

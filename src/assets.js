@@ -13,11 +13,12 @@ import MetaMaskOnboarding from "@metamask/onboarding";
 import { OpenSeaPort, Network } from "opensea-js";
 import * as Web3 from "web3";
 import SalePrice from "./salePrice";
-import Order from "./order"
+import Order from "./order";
+import OrdersContext from "./contexts/orderContext";
 
-export default function Assets({seaport, accountAddress}) {
-
-  const [orders, setOrders] = useState([])
+export default function Assets({ seaport, accountAddress }) {
+  
+  const { orders, setOrders, page, count } = useContext(OrdersContext);
 
   const fetchData = async () => {
     const { orders, count } = await seaport.api.getOrders(
@@ -35,27 +36,30 @@ export default function Assets({seaport, accountAddress}) {
       },
       1
     );
-    setOrders(orders)
+    setOrders(orders);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-//   const buy = (contract, tokenId) => {
-//     alert(`${contract} ${tokenId}`)
-//   }
+  //   const buy = (contract, tokenId) => {
+  //     alert(`${contract} ${tokenId}`)
+  //   }
 
   return (
     <React.Fragment>
-        <div>Displaying Assets(Orders)</div>
+      <div>Displaying Assets(Orders)</div>
       <div className="card-deck">
         {orders.map((order, i) => {
-          return <Order 
-          accountAddress={accountAddress}
-          seaport={seaport} 
-          key={i} 
-          order={order} />;
+          return (
+            <Order
+              accountAddress={accountAddress}
+              seaport={seaport}
+              key={i}
+              order={order}
+            />
+          );
         })}
       </div>
       {/* {this.renderPagination()} */}

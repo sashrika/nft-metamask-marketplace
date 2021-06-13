@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# A React Starter Project To Buy NFTs on OpenSea using Metamask
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Non-fungible tokens (NFTs) allow users to create and trade digital items with differing values.
 
-## Available Scripts
+## All required Metamask methods are used.
 
-In the project directory, you can run:
+In dApps you don't see conventional signup flows and signin flows. Your identity and permissions will b controlled by Metamsk extension. You can find how to handle different Metamask accounts and different etherium chains. 
 
-### `npm start`
+### `eth_requestAccounts`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Request a etherium address to uniquely identify the user. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
 
-### `npm test`
+### `event - accountsChanged`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+accountsChanged will be emitted whenever the user's exposed account address changes.\
+Don't get misunderstood that this gets emit when the user switch between the accounts in Metamask. 
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `event - chainChanged`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The MetaMask provider emits this event when the currently connected chain changes.
+This project notifies the user if the user is connected to any network other than main net. 
 
 ### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Note: This repo uses all the latest etherium RPC methods. This repo doesn't use any deprecated methods like `ethereum.enable()`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Opensea intergration
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This project has intergrated Openseajs. Opensea.js is an open source library developed by Opensea. It provides many useful methods like fetching orders from Opensea and fullfiling orders(on etherium network) without navigating to OpenSea portal
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Love  TailwindCSS + React

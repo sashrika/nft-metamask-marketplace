@@ -218,10 +218,10 @@ function Home() {
         Content goes here
       </div>      
       {window.ethereum.isConnected() ? "Connected" : "Not connected"}
-      <button disabled={isDisabled} onClick={handleWallet}>
+      {/* <button disabled={isDisabled} onClick={handleWallet}>
           Buy
-      </button>
-      {seaport && <Assets seaport={seaport}></Assets>}
+      </button> */}
+      {seaport && <Assets accountAddress={address} seaport={seaport}></Assets>}
     </div>
   );
 }

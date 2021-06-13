@@ -13,8 +13,9 @@ import MetaMaskOnboarding from "@metamask/onboarding";
 import { OpenSeaPort, Network } from "opensea-js";
 import * as Web3 from "web3";
 import SalePrice from "./salePrice";
+import Order from "./order"
 
-export default function Assets({seaport}) {
+export default function Assets({seaport, accountAddress}) {
 
   const [orders, setOrders] = useState([])
 
@@ -41,27 +42,23 @@ export default function Assets({seaport}) {
     fetchData();
   }, []);
 
-  const buy = (contract, tokenId) => {
-    alert(`${contract} ${tokenId}`)
-  }
+//   const buy = (contract, tokenId) => {
+//     alert(`${contract} ${tokenId}`)
+//   }
 
   return (
-    <div>
-      Displaying assetslllllllllll
-      {
-          orders.map((order) => {
-              console.log(order)
-              return (
-                  <div key={order.hash}>
-                      <a href="order.asset.openseaLink">
-                      {order.asset.name}
-                      </a>
-                      <span>{"  - "}Price is 29</span>
-                      <SalePrice order={order}/>
-                      <button onClick={() => buy(order.asset.tokenAddress,order.asset.tokenId)}>Buy now</button>
-                  </div>
-              )
-          })
-      }
-    </div>);
+    <React.Fragment>
+        <div>Displaying Assets(Orders)</div>
+      <div className="card-deck">
+        {orders.map((order, i) => {
+          return <Order 
+          accountAddress={accountAddress}
+          seaport={seaport} 
+          key={i} 
+          order={order} />;
+        })}
+      </div>
+      {/* {this.renderPagination()} */}
+    </React.Fragment>
+  );
 }

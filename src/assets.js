@@ -17,7 +17,7 @@ import Order from "./order";
 import OrdersContext from "./contexts/orderContext";
 
 export default function Assets({ seaport, accountAddress }) {
-  
+
   const { orders, setOrders, page, count } = useContext(OrdersContext);
 
   const fetchData = async () => {
@@ -50,15 +50,21 @@ export default function Assets({ seaport, accountAddress }) {
   return (
     <React.Fragment>
       <div>Displaying Assets(Orders)</div>
-      <div className="card-deck">
+      <div className="card-deck flex flex-wrap ">
+
         {orders.map((order, i) => {
           return (
-            <Order
-              accountAddress={accountAddress}
-              seaport={seaport}
-              key={i}
-              order={order}
-            />
+            <div className=" w-full sm:w-1/2  md:w-1/3 lg:w-1/4  flex justify-center mt-4 mb-8 ">
+              <div className="  p-4  flex-grow-0  text-center w-80  ">
+                <Order
+
+                  accountAddress={accountAddress}
+                  seaport={seaport}
+                  key={i}
+                  order={order}
+                />
+              </div>
+            </div>
           );
         })}
       </div>

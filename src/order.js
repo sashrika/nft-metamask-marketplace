@@ -47,7 +47,7 @@ export default function Order({ order, accountAddress, seaport }) {
       <button
         disabled={creatingOrder}
         onClick={buyAsset}
-        className="btn btn-primary w-100"
+        className="btn btn-primary bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 mx-3 border border-blue-500 hover:border-transparent rounded transition duration-500 "
       >
         Buy{creatingOrder ? "ing" : ""} for <SalePrice order={order} />
       </button>
@@ -65,24 +65,30 @@ export default function Order({ order, accountAddress, seaport }) {
     accountAddress.toLowerCase() === owner.address.toLowerCase();
 
   return (
-    <div>
+    <div className="  bg-gray-100 flex flex-col justify-end h-full border-2 border-gray-300 rounded">
+      {errorMessage ?
+        <div className="bg-red-400  py-2 text-lg fixed w-screen top-16 left-0">{errorMessage}</div>
+        :
+        ''}
       {asset ? <AssetMetadata asset={asset} /> : "Bundles are not supported"}
 
       <ul className="list-group list-group-flush">
-        <li className="list-group-item">
-          Offered by
+        <li className="list-group-item border-b-2  border-gray-300 mb-3 ">
+          Offered by <span> </span>
           <Account account={makerAccount} />
         </li>
-        {errorMessage ? (
+        {/* {errorMessage ? (
           <div className="alert alert-warning mb-0" role="alert">
             {errorMessage}
           </div>
         ) : (
           <li className="list-group-item">{renderBuyButton(!isOwner)}</li>
-        )}
+        )} */}
+
+        <li className="list-group-item">{renderBuyButton(!isOwner)}</li>
       </ul>
-      <div className="card-footer">
-        <small className="text-muted">Posted {timeLabel}</small>
+      <div className="card-footer mt-3 border-t-2  border-gray-300 ">
+        <small className="text-muted self-end  ">Posted {timeLabel}</small>
       </div>
     </div>
   );

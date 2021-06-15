@@ -16,10 +16,10 @@ export default class Account extends React.Component {
     return (
       <a target="_blank" rel="noopener noreferrer" href={`${OPENSEA_URL}/accounts/${_address}`}>
         {showImage && account
-          ? <div style={{backgroundImage:'url("'+account.image+'")'}} />
+          ? <div style={{ backgroundImage: 'url("' + account.image + '")' }} />
           : null
         }
-        <span>{displayName}</span>
+        <span className="text-green-600 hover:text-green-900 font-medium">{displayName}</span>
       </a>
     )
   }
